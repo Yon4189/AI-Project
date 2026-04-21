@@ -116,7 +116,7 @@ class SimpleImageServer(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=SimpleImageServer, port=8080):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print(f'🚀 Starting Pure Python Server on http://localhost:{port} ...')
+    print(f'Starting Pure Python Server on http://localhost:{port} ...')
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

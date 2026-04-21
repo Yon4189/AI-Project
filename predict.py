@@ -3,35 +3,29 @@ import tensorflow as tf
 from PIL import Image
 import io
 import os
+import json
+import os
 
 interpreter = None
 input_details = None
 output_details = None
-
-# Class names for the plant disease
-class_names = [
-    'Pepper__bell___Bacterial_spot', 
-    'Pepper__bell___healthy', 
-    'Potato___Early_blight', 
-    'Potato___Late_blight', 
-    'Potato___healthy', 
-    'Tomato_Bacterial_spot', 
-    'Tomato_Early_blight', 
-    'Tomato_Late_blight', 
-    'Tomato_Leaf_Mold', 
-    'Tomato_Septoria_leaf_spot', 
-    'Tomato_Spider_mites_Two_spotted_spider_mite', 
-    'Tomato__Target_Spot', 
-    'Tomato__Tomato_YellowLeaf__Curl_Virus', 
-    'Tomato__Tomato_mosaic_virus', 
-    'Tomato_healthy'
-]
+class_names = []
 
 def load_tflite_model():
-    global interpreter, input_details, output_details
+    global interpreter, input_details, output_details, class_names
     # Load model from the exact same directory (once you run train.py)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(base_dir, 'ml_model', 'plant_disease_model.tflite')
+
+    # dynamically load class name layout straight from the machine logic log
+    json_path = os.path.join(base_dir, 'ml_model', 'class_names.json')
+    try:
+        with open(json_path, 'r') as f:
+            class_names = json.load(f)
+    except FileNotFoundError:
+        print("⚠️ class_names.json missing! Models might not have been fully retrained yet.")
+        class_names = []
+
     interpreter = tf.lite.Interpreter(model_path=model_path)
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
@@ -60,4 +54,7 @@ def predict_disease(image_bytes):
     predicted_class = np.argmax(prediction, axis=1)[0]
     confidence = float(np.max(prediction)) * 100
 
+    if not class_names:
+        raise Exception("Your AI Labels are missing! Please run 'python train.py' until it completely finishes to generate your mapping file.")
+        
     return class_names[predicted_class], confidence
