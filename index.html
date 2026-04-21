@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Crop Diagnostics AI</title>
+    <title>ስማርት የሰብል ምርመራ | Smart Crop AI</title>
+    <!-- We will use a beautiful font that supports standard web elements well -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Vibrant Nature Theme */
-            --bg-gradient-start: #0f2027;
-            --bg-gradient-mid: #203a43;
-            --bg-gradient-end: #2c5364;
+            /* Deep Ethiopian Agricultural Theme */
+            --bg-gradient-start: #0f271a; /* Deep forest green */
+            --bg-gradient-mid: #1c3b1e;   /* Rich agri green */
+            --bg-gradient-end: #2d4a22;   /* Earthy green */
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --primary: #00d2ff;
-            --primary-glow: rgba(0, 210, 255, 0.4);
+            --primary: #f2a900; /* Subtle Ethiopian Yellow accent */
+            --primary-glow: rgba(242, 169, 0, 0.4);
             --text-main: #ffffff;
-            --text-muted: #b0c4de;
+            --text-muted: #c2d6c4;
+            --ethiopian-red: #e03c31;
+            --ethiopian-green: #007a3d;
         }
 
         * {
@@ -27,6 +30,7 @@
         }
 
         body {
+            /* Subtle beautiful gradient */
             background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -48,33 +52,43 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
+            border-top: 4px solid var(--ethiopian-green);
+            border-bottom: 4px solid var(--ethiopian-red);
             border-radius: 24px;
             padding: 40px;
             width: 90%;
-            max-width: 500px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            max-width: 550px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.47);
             text-align: center;
             transition: transform 0.3s ease;
         }
 
         h1 {
             font-size: 2.2rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-weight: 700;
-            background: -webkit-linear-gradient(#00d2ff, #3a7bd5);
+            background: -webkit-linear-gradient(var(--primary), #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        
+        h2.amharic-title {
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
 
         p.subtitle {
             color: var(--text-muted);
             margin-bottom: 30px;
             font-weight: 300;
+            line-height: 1.5;
         }
 
         /* Upload Area */
         .upload-area {
-            border: 2px dashed rgb(0, 210, 255, 0.5);
+            border: 2px dashed rgba(242, 169, 0, 0.5);
             border-radius: 16px;
             padding: 40px 20px;
             cursor: pointer;
@@ -85,7 +99,7 @@
         }
 
         .upload-area:hover, .upload-area.dragover {
-            background: rgba(0, 210, 255, 0.05);
+            background: rgba(242, 169, 0, 0.05);
             border-color: var(--primary);
             box-shadow: 0 0 15px var(--primary-glow);
         }
@@ -109,7 +123,7 @@
         /* Preview Image */
         #image-preview {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 220px;
             border-radius: 12px;
             display: none;
             margin: 0 auto 15px auto;
@@ -118,12 +132,12 @@
 
         /* Button */
         button.scan-btn {
-            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-            color: white;
+            background: linear-gradient(90deg, #d38b00 0%, var(--primary) 100%);
+            color: #111;
             border: none;
             border-radius: 30px;
             padding: 15px 40px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
             width: 100%;
@@ -142,28 +156,27 @@
             transform: translateY(1px);
         }
 
+        /* Reset Button */
         button.reset-btn {
             background: transparent;
             color: var(--primary);
-            border: 1px solid var(--primary);
+            border: 2px solid var(--primary);
             border-radius: 30px;
-            padding: 10px 25px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
+            margin-top: 15px;
             transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 15px;
+            display: none; 
         }
 
         button.reset-btn:hover {
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        button.reset-btn:active {
-            transform: translateY(1px);
+            background: rgba(242, 169, 0, 0.1);
+            transform: translateY(-2px);
         }
 
         /* Loader */
@@ -187,7 +200,7 @@
         .result-box {
             display: none;
             margin-top: 25px;
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 16px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--glass-border);
@@ -200,39 +213,41 @@
         }
 
         .result-title {
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            color: var(--text-muted);
+            color: var(--primary);
             letter-spacing: 1px;
             margin-bottom: 5px;
+            font-weight: 700;
         }
 
         .disease-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 15px;
         }
 
         .confidence-bar-bg {
             width: 100%;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            height: 8px;
+            height: 10px;
             overflow: hidden;
             margin-bottom: 5px;
         }
 
         .confidence-bar-fill {
             height: 100%;
-            background: #00d2ff;
+            background: var(--primary);
             width: 0%;
             transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .confidence-text {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
+            margin-top: 5px;
         }
 
     </style>
@@ -240,8 +255,12 @@
 <body>
 
     <div class="glass-container">
+        <h2 class="amharic-title">ስማርት የሰብል ምርመራ</h2>
         <h1>Smart Crop AI</h1>
-        <p class="subtitle">Upload a plant leaf image for instant disease diagnosis.</p>
+        <p class="subtitle">
+            የቲማቲም፣ የድንች ወይንም የቃሪያ ቅጠል ምስል በማስገባት የበሽታ አይነትን በፍጥነት ይወቁ። <br>
+            <span style="font-size: 0.85rem">Upload a Tomato, Potato, or Bell Pepper leaf image for instant diagnosis.</span>
+        </p>
 
         <div class="upload-area" id="upload-area">
             <img id="image-preview" src="#" alt="Leaf Preview">
@@ -249,45 +268,74 @@
                 <svg viewBox="0 0 24 24">
                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                 </svg>
-                <div style="font-weight: 500;">Click or Drag Leaf Image Here</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Supports JPG, PNG, WEBP</div>
+                <div style="font-weight: 500; font-size: 1.1rem; margin-bottom: 5px;">የቅጠል ምስል እዚህ ያስገቡ</div>
+                <div style="font-weight: 300;">(Click or Drag Leaf Image Here)</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Supported Formats: JPG, PNG, WEBP</div>
             </div>
             <input type="file" id="file-input" accept="image/*">
         </div>
 
-        <button class="scan-btn" id="scan-btn">Analyze Leaf</button>
+        <button class="scan-btn" id="scan-btn">መርምር (Analyze)</button>
+        <button class="reset-btn" id="reset-btn">ሌላ ቅጠል መርምር (Scan Another)</button>
 
         <div class="loader" id="loader"></div>
 
         <div class="result-box" id="result-box">
-            <div class="result-title">Detected Condition</div>
-            <div class="disease-name" id="disease-name">Processing...</div>
+            <div class="result-title">የተገኘው ውጤት (Results)</div>
+            <div class="disease-name" id="disease-name">በማስላት ላይ...</div>
             <div class="confidence-bar-bg">
                 <div class="confidence-bar-fill" id="confidence-bar"></div>
             </div>
-            <div class="confidence-text" id="confidence-text" style="margin-bottom: 15px;">0% Confidence</div>
-            
-            <button class="reset-btn" id="reset-btn">Scan Another Leaf</button>
+            <div class="confidence-text" id="confidence-text">0% እርግጠኛ (Confidence)</div>
         </div>
 
     </div>
 
     <script>
+        // Ethiopian Context Mapping Dictionary
+        const translationDictionary = {
+            "pepper bell bacterial spot": "ቃሪያ: ባክቴሪያል ቋቁቻ (Bacterial Spot)",
+            "pepper bell healthy": "ጤነኛ ቃሪያ (Healthy Pepper)",
+            "potato early blight": "ድንች: ቀደምት ዋግ በሽታ (Early Blight)",
+            "potato late blight": "ድንች: ዘግይቶ ዋግ በሽታ (Late Blight)",
+            "potato healthy": "ጤነኛ ድንች (Healthy Potato)",
+            "tomato bacterial spot": "ቲማቲም: ባክቴሪያል ቋቁቻ (Bacterial Spot)",
+            "tomato early blight": "ቲማቲም: ቀደምት ዋግ በሽታ (Early Blight)",
+            "tomato late blight": "ቲማቲም: ዘግይቶ ዋግ በሽታ (Late Blight)",
+            "tomato leaf mold": "ቲማቲም: የቅጠል ሻጋታ (Leaf Mold)",
+            "tomato septoria leaf spot": "ቲማቲም: ሴፕቶሪያ ቋቁቻ (Septoria Leaf Spot)",
+            "tomato spider mites two spotted spider mite": "ቲማቲም: የሸረሪት ብናኝ (Spider Mites)",
+            "tomato target spot": "ቲማቲም: ታርጌት ስፖት (Target Spot)",
+            "tomato tomato yellowleaf curl virus": "ቲማቲም: ብጫ ቅጠል መጠምዘዝ ቫይረስ (Yellow Leaf Curl)",
+            "tomato tomato mosaic virus": "ቲማቲም: ሞዛይክ ቫይረስ (Mosaic Virus)",
+            "tomato healthy": "ጤነኛ ቲማቲም (Healthy Tomato)"
+        };
+
         const uploadArea = document.getElementById('upload-area');
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('image-preview');
         const uploadContent = document.getElementById('upload-content');
         const scanBtn = document.getElementById('scan-btn');
+        const resetBtn = document.getElementById('reset-btn');
         const resultBox = document.getElementById('result-box');
         const loader = document.getElementById('loader');
-        const resetBtn = document.getElementById('reset-btn');
 
         let selectedFile = null;
 
-        // Click to upload
         uploadArea.addEventListener('click', () => fileInput.click());
 
-        // Drag and drop mechanics
+        // Reset the form to upload a new image
+        resetBtn.addEventListener('click', () => {
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
+            uploadContent.style.display = 'block';
+            resultBox.style.display = 'none';
+            resetBtn.style.display = 'none';
+            scanBtn.style.display = 'none';
+            selectedFile = null;
+            fileInput.value = '';
+        });
+
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.classList.add('dragover');
@@ -313,33 +361,18 @@
             if (!file.type.startsWith('image/')) return;
             selectedFile = file;
 
-            // Show Preview
             const reader = new FileReader();
             reader.onload = (e) => {
                 imagePreview.src = e.target.result;
                 imagePreview.style.display = 'block';
                 uploadContent.style.display = 'none';
                 scanBtn.style.display = 'block';
+                resetBtn.style.display = 'none';
                 resultBox.style.display = 'none';
             };
             reader.readAsDataURL(file);
         }
 
-        resetBtn.addEventListener('click', () => {
-            selectedFile = null;
-            fileInput.value = '';
-            
-            imagePreview.style.display = 'none';
-            imagePreview.src = '#';
-            
-            uploadContent.style.display = 'block';
-            scanBtn.style.display = 'none';
-            resultBox.style.display = 'none';
-            
-            document.getElementById('confidence-bar').style.width = '0%';
-        });
-
-        // Send to Python Backend
         scanBtn.addEventListener('click', async () => {
             if (!selectedFile) return;
 
@@ -359,12 +392,11 @@
                 const data = await response.json();
                 
                 loader.style.display = 'none';
+                scanBtn.style.display = 'block';
                 
                 if (data.error) {
-                    scanBtn.style.display = 'block';
                     alert("Error: " + data.error);
                 } else {
-                    scanBtn.style.display = 'none'; // Hide analyze button when showing result
                     showResult(data.predicted_disease, data.confidence_score);
                 }
 
@@ -377,15 +409,19 @@
         });
 
         function showResult(disease, confidence) {
-            // Clean up disease string format (e.g., Tomato__Early_blight -> Tomato Early Blight)
-            let formattedName = disease.replace(/_+/g, ' ').trim();
+            // Clean string
+            let normalizedInput = disease.replace(/_+/g, ' ').trim().toLowerCase();
             
-            document.getElementById('disease-name').innerText = formattedName;
-            document.getElementById('confidence-text').innerText = confidence + '% Confidence';
+            // Check dictionary for translation, fallback to cleaned original name
+            let finalName = translationDictionary[normalizedInput] || disease.replace(/_+/g, ' ').trim();
+            
+            document.getElementById('disease-name').innerText = finalName;
+            document.getElementById('confidence-text').innerText = confidence + '% እርግጠኛ (Confidence)';
             
             resultBox.style.display = 'block';
+            scanBtn.style.display = 'none'; // Hide analyze button
+            resetBtn.style.display = 'block'; // Show reset button
             
-            // Animate bar
             setTimeout(() => {
                 document.getElementById('confidence-bar').style.width = confidence + '%';
             }, 100);
