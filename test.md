@@ -23,7 +23,7 @@ The model uses a **Convolutional Neural Network (CNN)**. CNNs are the gold stand
 
 ### 📂 `train.py` (The Brain Creator)
 This is where the AI is "born" and trained.
-*   **Loading Data**: It looks into the `dataset copy/PlantVillage` folder.
+*   **Loading Data**: It looks into the `dataset/CropImages` folder.
 *   **Data Augmentation**: It "stretches" the training data by rotating, flipping, and zooming images so the AI learns to recognize diseases even if the photo is blurry or tilted.
 *   **Building the CNN**: It defines the layers of the neural network (Conv2D, MaxPooling, Flatten, Dense).
 *   **Saving the Model**: 

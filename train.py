@@ -8,7 +8,7 @@ from tensorflow.keras.optimizers import Adam
 
 # 1. Pipeline Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-dataset_path = os.path.join(BASE_DIR, 'dataset copy', 'PlantVillage')
+dataset_path = os.path.join(BASE_DIR, 'dataset', 'CropImages')
 model_dir = os.path.join(BASE_DIR, 'ml_model')
 
 if not os.path.exists(model_dir):
@@ -18,7 +18,7 @@ if not os.path.exists(dataset_path):
     print(f" Error: Dataset folder missing! Please place your images in: {dataset_path}")
     print("Structure should be:")
     print("  dataset/")
-    print("    PlantVillage/")
+    print("    CropImages/")
     print("      Class_Name_1/ (e.g., Tomato_Early_blight/)")
     print("        img1.jpg")
     print("        img2.jpg")
@@ -77,24 +77,26 @@ print(f"Found {len(train_data.class_indices)} distinct plant disease classes.")
 # 4. Build Custom Deep CNN Architecture
 print("Building Deep Convolutional Neural Network architecture...")
 model = Sequential([
+#  filter layer identifies simple lines.  
     Conv2D(32, (3,3), activation='relu', input_shape=(img_height, img_width, 3)),
     MaxPooling2D(pool_size=(2,2)),
-    
+#  filter layer identifies textures and small shapes.      
     Conv2D(64, (3,3), activation='relu'),
+#   making the data smaller and easier to process.          
     MaxPooling2D(pool_size=(2,2)),
-    
+#   filter layer identifies textures and small shapes.          
     Conv2D(128, (3,3), activation='relu'),
     MaxPooling2D(pool_size=(2,2)),
-    
+#  filter layer identifies complex structures like the specific pattern of a fungus or mold.          
     Conv2D(256, (3,3), activation='relu'),
     MaxPooling2D(pool_size=(2,2)),
-    
+# turn the 2D image into a 1D list of numbers.    
     Flatten(),
     Dense(256, activation='relu'),
     Dropout(0.5),
     Dense(len(train_data.class_indices), activation='softmax')
 ])
-
+# The Learning Process (Training)
 model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 # 5. Train the Model
