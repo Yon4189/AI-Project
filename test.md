@@ -28,15 +28,14 @@ from tensorflow.keras.optimizers import Adam
 ### Lines 9-14: Directory Configurations
 ```python
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-dataset_path = os.path.join(BASE_DIR, 'dataset copy', 'PlantVillage')
+dataset_path = os.path.join(BASE_DIR, 'dataset', 'CropImages')
 model_dir = os.path.join(BASE_DIR, 'ml_model')
 
-<<<<<<< HEAD
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)
 ```
 **Explanation:** Defines dynamic absolute file paths to ensure the script can run regardless of where in the filesystem the project lives. It points to where your dataset is and creates the `ml_model` directory to save your finished AI models if it doesn't already exist.
-=======
+
 ### 📂 `train.py` (The Brain Creator)
 This is where the AI is "born" and trained.
 *   **Loading Data**: It looks into the `dataset/CropImages` folder.
@@ -65,7 +64,6 @@ The "Face" of the project. It provides:
 *   A clean, modern dashboard.
 *   An image upload area.
 *   Real-time display of the AI's diagnosis.
->>>>>>> 126696c12a11e82aabe6a29ff991d05e72358a94
 
 ---
 
@@ -75,7 +73,7 @@ if not os.path.exists(dataset_path):
     print(f" Error: Dataset folder missing! Please place your images in: {dataset_path}")
     print("Structure should be:")
     print("  dataset/")
-    print("    PlantVillage/")
+    print("    CropImages/")
     print("      Class_Name_1/ (e.g., Tomato_Early_blight/)")
     print("        img1.jpg")
     print("        img2.jpg")

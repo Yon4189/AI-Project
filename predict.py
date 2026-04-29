@@ -20,11 +20,7 @@ def load_tflite_model():
         with open(json_path, 'r') as f:
             class_names = json.load(f)
     except FileNotFoundError:
-<<<<<<< HEAD
-        print("class_names.json missing! Models might not have been fully retrained yet.")
-=======
         print(" class_names.json missing! Models might not have been fully retrained yet.")
->>>>>>> 126696c12a11e82aabe6a29ff991d05e72358a94
         class_names = []
 
     interpreter = tf.lite.Interpreter(model_path=model_path)
