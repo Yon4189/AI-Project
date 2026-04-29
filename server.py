@@ -4,10 +4,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pymongo import MongoClient
 from datetime import datetime
 
-# Import our custom standalone logic
 import predict
 
-# MongoDB connection setup
 try:
     client = MongoClient("mongodb://localhost:27017/")
     db = client["smart_crop_db"]

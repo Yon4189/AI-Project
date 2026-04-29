@@ -13,17 +13,18 @@ class_names = []
 
 def load_tflite_model():
     global interpreter, input_details, output_details, class_names
-    # Load model from the exact same directory (once you run train.py)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(base_dir, 'ml_model', 'plant_disease_model.tflite')
-
-    # dynamically load class name layout straight from the machine logic log
     json_path = os.path.join(base_dir, 'ml_model', 'class_names.json')
     try:
         with open(json_path, 'r') as f:
             class_names = json.load(f)
     except FileNotFoundError:
+<<<<<<< HEAD
+        print("class_names.json missing! Models might not have been fully retrained yet.")
+=======
         print(" class_names.json missing! Models might not have been fully retrained yet.")
+>>>>>>> 126696c12a11e82aabe6a29ff991d05e72358a94
         class_names = []
 
     interpreter = tf.lite.Interpreter(model_path=model_path)
@@ -36,11 +37,8 @@ def predict_disease(image_bytes):
     
     if interpreter is None:
         load_tflite_model()
-
-    # Open image directly from memory (bytes)
     pil_image = Image.open(io.BytesIO(image_bytes)).convert('RGB')
     
-    # Resize and preprocess just like the exact logic before
     image = pil_image.resize((128, 128))
     image = np.array(image, dtype=np.float32)
     image = np.expand_dims(image, axis=0)
